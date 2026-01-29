@@ -64,6 +64,21 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#0A0118] text-foreground;
+  }
+}
+
+/* Shadow Lord Slayer Dark Theme */
+@layer components {
+  .trpg-card {
+    @apply bg-[#1A0B2E]/60 backdrop-blur-sm border border-purple-700/30;
+  }
+
+  .trpg-glow {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+  }
+
+  .trpg-glow-hover:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
   }
 }
