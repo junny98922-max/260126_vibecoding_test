@@ -4,7 +4,7 @@ import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 interface CinematicSceneProps {
-  sceneType: 'walking' | 'battle' | 'boss' | 'victory' | 'rest';
+  sceneType: 'walking' | 'battle' | 'boss' | 'victory' | 'rest' | 'village' | 'dungeon';
 }
 
 type BattlePhase = 'approach' | 'hero_attack' | 'enemy_hit' | 'enemy_counter' | 'hero_dodge' | 'loop';
@@ -542,6 +542,25 @@ export function CinematicScene({ sceneType }: CinematicSceneProps) {
   const [defeated, setDefeated] = useState(false);
   const [isWalking, setIsWalking] = useState(true);
 
+  // 배경색 결정
+  const getBgGradient = () => {
+    switch (sceneType) {
+      case 'battle':
+      case 'boss':
+        return 'from-red-950 via-orange-950 to-black';
+      case 'village':
+        return 'from-amber-900 via-orange-900 to-yellow-900';
+      case 'dungeon':
+        return 'from-gray-950 via-slate-900 to-purple-950';
+      case 'rest':
+        return 'from-blue-950 via-indigo-900 to-purple-900';
+      case 'victory':
+        return 'from-yellow-800 via-orange-800 to-amber-800';
+      default:
+        return 'from-indigo-950 via-purple-950 to-orange-900';
+    }
+  };
+
   // 전투 시퀀스
   useEffect(() => {
     if (sceneType === 'battle' || sceneType === 'boss') {
@@ -594,7 +613,11 @@ export function CinematicScene({ sceneType }: CinematicSceneProps) {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* 배경 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-purple-950 to-orange-900" />
+      <motion.div
+        animate={{ background: `linear-gradient(to bottom, ${getBgGradient()})` }}
+        transition={{ duration: 1 }}
+        className={`absolute inset-0 bg-gradient-to-b ${getBgGradient()}`}
+      />
 
       {/* 별 */}
       {[...Array(40)].map((_, i) => (
@@ -607,8 +630,20 @@ export function CinematicScene({ sceneType }: CinematicSceneProps) {
         />
       ))}
 
-      {/* 달 */}
-      <div className="absolute top-10 right-20 w-32 h-32 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full shadow-[0_0_60px_rgba(251,191,36,0.6)]" />
+      {/* 달/해 */}
+      {sceneType !== 'dungeon' && (
+        <motion.div
+          animate={{
+            scale: sceneType === 'village' ? [1, 1.05, 1] : 1,
+          }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className={`absolute top-10 right-20 w-32 h-32 rounded-full ${
+            sceneType === 'village' || sceneType === 'rest'
+              ? 'bg-gradient-to-br from-yellow-300 to-orange-400 shadow-[0_0_80px_rgba(251,191,36,0.8)]'
+              : 'bg-gradient-to-br from-yellow-200 to-orange-300 shadow-[0_0_60px_rgba(251,191,36,0.6)]'
+          }`}
+        />
+      )}
 
       {/* 스크롤 배경 */}
       <motion.div
