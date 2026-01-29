@@ -24,7 +24,7 @@ export function ChatHeader({ onNewGame, sessionId }: ChatHeaderProps) {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center justify-between px-4 md:px-6 py-4 bg-gray-800 border-b border-gray-700"
+        className="flex items-center justify-between px-4 md:px-6 py-4 bg-black/30 backdrop-blur-md border-b border-white/10"
       >
         <div className="flex items-center gap-3">
           <motion.div

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { EpicBattleScene } from './EpicBattleScene';
 
 interface AnimatedSceneProps {
   content: string;
@@ -335,6 +336,11 @@ export function AnimatedScene({ content }: AnimatedSceneProps) {
     }
   }, [scene]);
 
+  // 전투/보스 장면은 EpicBattleScene 사용
+  if (scene === 'battle' || scene === 'boss') {
+    return <EpicBattleScene content={content} isBoss={scene === 'boss'} />;
+  }
+
   // 배경색 결정
   const bgGradient = {
     battle: 'from-red-950 via-orange-950 to-red-950',
@@ -377,13 +383,6 @@ export function AnimatedScene({ content }: AnimatedSceneProps) {
 
       {/* 장면별 콘텐츠 */}
       <div className="absolute inset-0 flex items-center justify-around px-8">
-        {(scene === 'battle' || scene === 'boss') && (
-          <>
-            <Hero />
-            <BattleEffect />
-            <Monster isBoss={scene === 'boss'} />
-          </>
-        )}
 
         {scene === 'exploration' && (
           <>

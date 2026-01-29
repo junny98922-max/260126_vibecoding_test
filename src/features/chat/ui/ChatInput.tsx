@@ -33,7 +33,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex gap-2 px-4 py-4 bg-gray-800 border-t border-gray-700"
+      className="flex gap-2 px-4 py-4 bg-black/30 backdrop-blur-md border-t border-white/10"
     >
       <textarea
         value={input}
